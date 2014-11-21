@@ -32,7 +32,7 @@
             android:label="@string/title_activity_town"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".NavigationActivity"
+            android:name="model.NavigationActivity"
             android:label="@string/title_activity_navigation"/>
         <activity
             android:name=".ShopActivity"
@@ -45,7 +45,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ShowInventory"
+            android:name=".InventoryActivity"
             android:label="@string/title_activity_show_inventory"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" > >
@@ -56,7 +56,7 @@
             android:screenOrientation="portrait"  >
         </activity>
         <activity
-            android:name=".TransitionActivity"
+            android:name="model.TransitionActivity"
             android:label="@string/title_activity_transition"  >
         </activity>
     </application>

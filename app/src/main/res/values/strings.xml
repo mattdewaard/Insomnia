@@ -46,5 +46,9 @@
     <string name="text_total_statistics">Applied Statistics</string>
     <string name="text_stats">Health Points:\nAction Points:\nPhysical Damage:\nMagic Damage:\nPhysical Defence:\nMagic Defence:\nSpeed\nCritical:</string>
     <string name="text_cannot_equip_item">You cannot equip this item</string>
+    <string name="text_unable_sign_in">Unable to sign in</string>
+    <string name="text_no_saves">No saved accounts</string>
+    <string name="text_pin_length">Enter a four digit PIN number</string>
+    <string name="text_no_item_selected">No item selected</string>
 
 </resources>

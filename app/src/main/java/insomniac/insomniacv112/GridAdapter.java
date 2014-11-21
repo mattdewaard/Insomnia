@@ -59,7 +59,7 @@ public final class GridAdapter extends BaseAdapter {
                         final ViewGroup parent) {
         TextView textView;
         if (convertView == null) {
-            textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.text_view_item, null);
+            textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_item, null);
             textView.setLayoutParams(new GridView.LayoutParams(vSize, vSize));
         } else {
             textView = (TextView) convertView;

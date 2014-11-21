@@ -1,21 +1,11 @@
 package insomniac.insomniacv112;
 
 import accounts.Account;
-import model.Toaster;
+import model.NavigationActivity;
 
-import android.app.Activity;
-import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class TownActivity extends NavigationActivity implements View.OnClickListener {
@@ -50,7 +40,7 @@ public class TownActivity extends NavigationActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             default:    //R.id.btn_4
-                intent = new Intent(this, ShowInventory.class);
+                intent = new Intent(this, InventoryActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -1,34 +1,22 @@
 package insomniac.insomniacv112;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-
-import Items.Item;
+import Items.Equipment;
 import Items.Potion;
 import model.DataSimpleton;
 import model.ItemManager;
 import model.Toaster;
 import accounts.Account;
 import accounts.AccountManager;
+import model.TransitionActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
-import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.os.Build;
 
 public class NewAccountActivity extends TransitionActivity implements
         OnClickListener {
@@ -78,43 +66,46 @@ public class NewAccountActivity extends TransitionActivity implements
                 String name = textBoxName.getText().toString();
                 String pin = textBoxPin.getText().toString();
                 if (name.length() == 0)
-                    Toaster.makeToast(this, "Enter a name");
-                else if (pin.length() != 4) {
-                    Toaster.makeToast(this, "Enter a four digit PIN number");
-                } else {
-                    if (classType != null || classType != "") {
-                        if (AccountManager.registerAccount(this, name, pin,
-                                classType) == true) {
-                            Account account = AccountManager.getAccount(this, name,
-                                    pin);
-
-                            if (account == null)
-                                Log.d("Failed", "failed");
-                            else {
-                                Potion p = (Potion) ItemManager.getItem("c001");
-                                p.increaseCount();
-                                p.increaseCount();
-                                account.addItem(p);
-                                account.addItem(ItemManager.getItem("u002"));
-                                account.addItem(ItemManager.getItem("r003"));
-                                account.addItem(ItemManager.getItem("l004"));
-                                account.addItem(ItemManager.getItem("a005"));
-                                account.addItem(ItemManager.getItem("c006"));
-                                account.addItem(ItemManager.getItem("u007"));
-                                account.addItem(ItemManager.getItem("r008"));
-                                account.addItem(ItemManager.getItem("l009"));
-                                account.addItem(ItemManager.getItem("a010"));
-                                account.addItem(ItemManager.getItem("l017"));
-                                account.addItem(ItemManager.getItem("u017"));
-                                Intent intent = new Intent(this,
-                                        TownActivity.class);
-                                textBoxName.setText("");
-                                textBoxPin.setText("");
-                                startActivity(intent);
-                            }
-                        }
+                    Toaster.makeToast(this, getString(R.string.text_enter_name));
+                else {
+                    if (pin.length() != 4) {
+                        Toaster.makeToast(this, getString(R.string.text_pin_length));
                     } else {
-                        Toaster.makeToast(this, "Please select a class");
+                        if (classType != null || classType != "") {
+                            if (AccountManager.registerAccount(this, name, pin,
+                                    classType) == true) {
+                                if (AccountManager.getAccount(this, name, pin) != null){
+                                    // TEST DATA
+                                    Account account = AccountManager.getAccount(this, name, pin);
+                                    Potion p = (Potion) ItemManager.getItem("c001");
+                                    p.increaseCount();
+                                    p.increaseCount();
+                                    account.addItem(p);
+                                    account.addItem(ItemManager.getItem("u002"));
+                                    account.addItem(ItemManager.getItem("r003"));
+                                    account.addItem(ItemManager.getItem("l004"));
+                                    Equipment equip = (Equipment) ItemManager.getItem("a005");
+                                    equip.upgrade();
+                                    equip.upgrade();
+                                    account.addItem(equip);
+                                    account.addItem(ItemManager.getItem("c006"));
+                                    account.addItem(ItemManager.getItem("u007"));
+                                    account.addItem(ItemManager.getItem("r008"));
+                                    account.addItem(ItemManager.getItem("l009"));
+                                    account.addItem(ItemManager.getItem("a010"));
+                                    account.addItem(ItemManager.getItem("l017"));
+                                    account.addItem(ItemManager.getItem("u017"));
+                                    ////////////////
+
+                                    textBoxName.setText("");
+                                    textBoxPin.setText("");
+                                    Intent intent = new Intent(this, TownActivity.class);
+                                    startActivity(intent);
+                                } else Log.d("New account failed","");
+                            }
+                        } else {
+                            Toaster.makeToast(this, "Please select a class");
+                        }
                     }
                 }
                 break;

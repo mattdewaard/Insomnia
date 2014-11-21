@@ -126,15 +126,15 @@ public class ItemManager {
         commons.add(new Imbue("c002", "Fire Stone", "Fire", 50, 1,
                 new Attributes(0, 0, 5, 0, 0, 0, 0, 0)));
 
-        commons.add(new Equipment("c003", "Broken Knight's Sword", "Sword", 50,
+        commons.add(new Equipment("c003", "Broken Knight's Sword", "Weapon", 50,
                 1, new Attributes(0, 0, 2, 0, 0, 0, 0, 0)));
-        commons.add(new Equipment("c004", "Blunt Sword", "Sword", 50, 1,
+        commons.add(new Equipment("c004", "Blunt Sword", "Weapon", 50, 1,
                 new Attributes(0, 0, 3, 0, 0, 0, 0, 2)));
-        commons.add(new Equipment("c005", "Old Pirate's Blade", "Scimitar", 50,
+        commons.add(new Equipment("c005", "Old Pirate's Blade", "Weapon", 50,
                 1, new Attributes(0, 0, 3, 0, 0, 0, 2, 0)));
-        commons.add(new Equipment("c006", "Wooden Staff", "Staff", 50, 1,
+        commons.add(new Equipment("c006", "Wooden Staff", "Weapon", 50, 1,
                 new Attributes(0, 0, 0, 3, 0, 0, 0, 0)));
-        commons.add(new Equipment("c007", "Wooden Wand", "Wand", 50, 1,
+        commons.add(new Equipment("c007", "Wooden Wand", "Weapon", 50, 1,
                 new Attributes(0, 0, 0, 3, 0, 0, 2, 0)));
 
         commons.add(new Equipment("c008", "Rusty Helmet", "Helm", 50, 1,
@@ -164,15 +164,15 @@ public class ItemManager {
         uncommons.add(new Imbue("u002", "Lightning Stone", "Lightning", 100, 1,
                 new Attributes(0, 0, 5, 5, 0, 0, 0, 0)));
 
-        uncommons.add(new Equipment("u003", "Silver Sword", "Sword", 100, 1,
+        uncommons.add(new Equipment("u003", "Silver Sword", "Weapon", 100, 1,
                 new Attributes(0, 0, 6, 0, 0, 0, 0, 0)));
-        uncommons.add(new Equipment("u004", "Katana", "Katana", 100, 1,
+        uncommons.add(new Equipment("u004", "Katana", "Weapon", 100, 1,
                 new Attributes(0, 0, 4, 0, 0, 0, 1, 1)));
-        uncommons.add(new Equipment("u005", "Captain's Cutlass", "Scimitar",
+        uncommons.add(new Equipment("u005", "Captain's Cutlass", "Weapon",
                 100, 1, new Attributes(0, 0, 4, 0, 0, 0, 2, 0)));
-        uncommons.add(new Equipment("u006", "Wizard's Staff", "Staff", 100, 1,
+        uncommons.add(new Equipment("u006", "Wizard's Staff", "Weapon", 100, 1,
                 new Attributes(0, 0, 0, 6, 0, 0, 0, 0)));
-        uncommons.add(new Equipment("u007", "Wizard's Wand", "Wand", 100, 1,
+        uncommons.add(new Equipment("u007", "Wizard's Wand", "Weapon", 100, 1,
                 new Attributes(0, 0, 0, 4, 0, 0, 2, 0)));
 
         uncommons.add(new Equipment("u008", "Silver Helmet", "Helm", 100, 1,
@@ -202,15 +202,15 @@ public class ItemManager {
         rares.add(new Imbue("r002", "Light Stone", "Light", 250, 1,
                 new Attributes(0, 0, 10, 10, 0, 0, 5, 0)));
 
-        rares.add(new Equipment("r003", "Blue Light", "Sword", 250, 1,
+        rares.add(new Equipment("r003", "Blue Light", "Weapon", 250, 1,
                 new Attributes(0, 0, 10, 5, 0, 0, 2, 2)));
-        rares.add(new Equipment("r004", "Debt of the Samurai", "Katana", 250,
+        rares.add(new Equipment("r004", "Debt of the Samurai", "Weapon", 250,
                 1, new Attributes(0, 0, 12, 0, 0, 0, 5, 5)));
-        rares.add(new Equipment("r005", "Sea Bane", "Scimitar", 250, 1,
+        rares.add(new Equipment("r005", "Sea Bane", "Weapon", 250, 1,
                 new Attributes(0, 0, 14, 0, 0, 0, 5, 0)));
-        rares.add(new Equipment("r006", "Storm Caster", "Staff", 250, 1,
+        rares.add(new Equipment("r006", "Storm Caster", "Weapon", 250, 1,
                 new Attributes(0, 0, 0, 15, 0, 0, 0, 0)));
-        rares.add(new Equipment("r007", "Wind Maker", "Wand", 250, 1,
+        rares.add(new Equipment("r007", "Wind Maker", "Weapon", 250, 1,
                 new Attributes(0, 0, 0, 12, 0, 0, 5, 5)));
 
         rares.add(new Equipment("r008", "Knight's Helmet", "Helm", 250, 1,
@@ -242,15 +242,15 @@ public class ItemManager {
         legendaries.add(new Imbue("l002", "Darkness Stone", "Dark", 500, 1,
                 new Attributes(0, 0, 10, 10, 0, 5, 5, 5)));
 
-        legendaries.add(new Equipment("l003", "The Founding Sword", "Sword",
+        legendaries.add(new Equipment("l003", "The Founding Sword", "Weapon",
                 500, 1, new Attributes(0, 0, 30, 5, 0, 0, 10, 0)));
-        legendaries.add(new Equipment("l004", "Bloodbane", "Katana", 500, 1,
+        legendaries.add(new Equipment("l004", "Bloodbane", "Weapon", 500, 1,
                 new Attributes(0, 0, 25, 0, 0, 0, 15, 20)));
-        legendaries.add(new Equipment("l005", "Wrath of the Sea", "Scimitar",
+        legendaries.add(new Equipment("l005", "Wrath of the Sea", "Weapon",
                 500, 1, new Attributes(0, 0, 20, 10, 0, 0, 20, 0)));
-        legendaries.add(new Equipment("l006", "Lord's Darkness", "Staff", 500,
+        legendaries.add(new Equipment("l006", "Lord's Darkness", "Weapon", 500,
                 1, new Attributes(0, 0, 0, 30, 0, 0, 5, 5)));
-        legendaries.add(new Equipment("l007", "Chaos Wand", "Wand", 500, 1,
+        legendaries.add(new Equipment("l007", "Chaos Wand", "Weapon", 500, 1,
                 new Attributes(0, 0, 0, 25, 0, 0, 15, 15)));
 
         legendaries.add(new Equipment("l008", "Sunlight Helmet", "Helm", 500,
@@ -275,10 +275,10 @@ public class ItemManager {
     }
 
     private static void getAncients() {
-        ancients.add(new Equipment("a000", "Moon Dragon Blade", "Sword",
+        ancients.add(new Equipment("a000", "Moon Dragon Blade", "Weapon",
                 1000, 1, new Attributes(0, 0, 50, 15, 0, 0, 15, 15)));
-        ancients.add(new Equipment("a001", "Moon Dragon Staff", "Staff", 1000,
-                1, new Attributes(0, 0, 0, 50, 0, 0, 20, 20)));
+        ancients.add(new Equipment("a001", "Moon Dragon Staff", "Weapon", 1000,
+                1, new Attributes(0, 0, 0, 60, 0, 0, 20, 20)));
 
         ancients.add(new Equipment("a002", "Moon Dragon Helmet", "Helm", 1000,
                 1, new Attributes(100, 60, 20, 0, 30, 10, 0, 0)));
