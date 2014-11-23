@@ -2,6 +2,7 @@ package model;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,17 +31,22 @@ public class NavigationActivity extends TransitionActivity implements View.OnCli
 
     public void setText(String feedback, String text1, String text2, String text3, String text4){
         TextView feedbackBox = (TextView) findViewById(R.id.textView_feedback);
-        Button b1 = (Button) findViewById(R.id.btn_1);
-        Button b2 = (Button) findViewById(R.id.btn_2);
-        Button b3 = (Button) findViewById(R.id.btn_3);
-        Button b4 = (Button) findViewById(R.id.btn_4);
-        b1.setText(text1);
-        b2.setText(text2);
-        b3.setText(text3);
-        b4.setText(text4);
+        if(text1.length() != 0) btn1.setText(text1);
+        else setInvisible(btn1);
+        if(text2.length() != 0) btn2.setText(text2);
+        else setInvisible(btn2);
+        if(text3.length() != 0) btn3.setText(text3);
+        else setInvisible(btn3);
+        if(text4.length() != 0) btn4.setText(text4);
+        else setInvisible(btn4);
         feedbackBox.setText(feedback);
     }
 
+    private void setInvisible(Button btn){
+        ViewGroup.LayoutParams params = btn.getLayoutParams();
+        params.width = 0;
+        btn.setLayoutParams(params);
+    }
     public void onClick(View v){
 
     }

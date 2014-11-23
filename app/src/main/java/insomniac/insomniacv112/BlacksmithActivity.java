@@ -1,36 +1,46 @@
 package insomniac.insomniacv112;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import accounts.Account;
+import model.NavigationActivity;
 
 
-public class BlacksmithActivity extends Activity {
+public class BlacksmithActivity extends NavigationActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String feedback = getString(R.string.text_welcome_blacksmith);
+        String trade = getString(R.string.text_trade_items);
+        String upgrade = getString(R.string.text_upgrade_equipment);
+        String imbue = getString(R.string.text_imbue_equipment);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_equipment);
+        super.setText(feedback, trade, upgrade, imbue, "");
     }
 
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case (R.id.btn_1):
+                startActivity(new Intent(this, TradeActivity.class));
+                break;
+            case (R.id.btn_2):
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.blacksmilth, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+                break;
+            case (R.id.btn_3):
+                intent = new Intent(this, WildernessActivity.class);
+                startActivity(intent);
+                break;
+            default:    //R.id.btn_4
+                intent = new Intent(this, InventoryActivity.class);
+                startActivity(intent);
+                break;
         }
-        return super.onOptionsItemSelected(item);
     }
 }

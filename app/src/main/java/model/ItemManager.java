@@ -17,6 +17,19 @@ public class ItemManager {
     private static ArrayList<Item> legendaries = new ArrayList<Item>();
     private static ArrayList<Item> ancients = new ArrayList<Item>();
 
+    public static void init() {
+        commons = new ArrayList<Item>();
+        uncommons = new ArrayList<Item>();
+        rares = new ArrayList<Item>();
+        legendaries = new ArrayList<Item>();
+        ancients = new ArrayList<Item>();
+        getCommons();
+        getUncommons();
+        getRares();
+        getLegendaries();
+        getAncients();
+    }
+
     public static Item getItem(String ID) {
         char rarity;
         int index = 0;
@@ -27,7 +40,6 @@ public class ItemManager {
             Log.d("Error", "Invalid ID. Required \"rXXX\". Got " + ID);
             return null;
         }
-        init(rarity);
         switch (rarity) {
             case ('u'): {
                 if (uncommons.size() <= index)
@@ -58,53 +70,21 @@ public class ItemManager {
         }
     }
 
-    private static void init(char type) {
-        switch (type) {
-            case ('c'):
-                commons = new ArrayList<Item>();
-                getCommons();
-                break;
-            case ('u'):
-                uncommons = new ArrayList<Item>();
-                getUncommons();
-                break;
-            case ('r'):
-                rares = new ArrayList<Item>();
-                getRares();
-                break;
-            case ('l'):
-                legendaries = new ArrayList<Item>();
-                getLegendaries();
-                break;
-            case ('a'):
-                ancients = new ArrayList<Item>();
-                getAncients();
-                break;
-        }
-    }
-
     public static Imbue getImbue(String type) {
-        init('c');
-        init('u');
-        init('r');
-        init('l');
-        init('a');
-        Imbue imbue = null;
         if (commons.get(3).getType().equals(type))
-            imbue = (Imbue) commons.get(3);
+            return (Imbue) commons.get(3);
         else if (uncommons.get(3).getType().equals(type))
-            imbue = (Imbue) uncommons.get(3);
+            return (Imbue) uncommons.get(3);
         else if (rares.get(3).getType().equals(type))
-            imbue = (Imbue) rares.get(3);
+            return (Imbue) rares.get(3);
         else if (legendaries.get(3).getType().equals(type))
-            imbue = (Imbue) legendaries.get(3);
+            return (Imbue) legendaries.get(3);
         else if (ancients.get(3).getType().equals(type))
-            imbue = (Imbue) ancients.get(3);
-        return imbue;
+            return (Imbue) ancients.get(3);
+        return null;
     }
 
     public static ArrayList<Item> getLootPool(char type) {
-        init(type);
         switch (type) {
             case ('c'):
                 return commons;
@@ -293,11 +273,27 @@ public class ItemManager {
         ancients.add(new Equipment("a007", "Moon Dragon Pants", "Leggings", 1000,
                 1, new Attributes(80, 60, 0, 20, 10, 30, 30, 0)));
         ancients.add(new Equipment("a008", "Moon Dragon Light Hood", "Helm", 1000, 1,
-                new Attributes(80, 70,10, 0, 20, 20, 20, 20)));
+                new Attributes(80, 70, 10, 0, 20, 20, 20, 20)));
         ancients.add(new Equipment("a009", "Moon Dragon Cloak", "Armour", 1000,
                 1, new Attributes(140, 90, 10, 0, 40, 30, 30, 10)));
         ancients.add(new Equipment("a010", "Moon Dragon Tights", "Leggings",
                 1000, 1, new Attributes(80, 70, 10, 0, 20, 20, 20, 20)));
         ancients.add(new UpgradeStone("a011", "Flawless Moon Stone", "Upgrade", 1000));
+    }
+
+    // Return the colour associated with an item
+    public static String getRarityColour(Item item) {
+        switch (item.getId().charAt(0)) {
+            case ('u'):
+                return "#B2FF66";
+            case ('r'):
+                return "#3399FF";
+            case ('l'):
+                return "#CC0066";
+            case ('a'):
+                return "#99FFFF";
+            default:
+                return "#ffffff";
+        }
     }
 }

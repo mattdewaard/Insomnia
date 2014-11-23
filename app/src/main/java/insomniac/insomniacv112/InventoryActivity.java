@@ -27,28 +27,28 @@ import Items.Item;
 import Items.Potion;
 import Items.UpgradeStone;
 import accounts.Account;
+import model.ItemManager;
+import model.TabActivity;
 import model.Toaster;
 import model.TransitionActivity;
 
 
-public class InventoryActivity extends TransitionActivity implements View.OnClickListener {
+public class InventoryActivity extends TabActivity implements View.OnClickListener {
     Account account;
-    Item selectedItem;
-    Integer oldSelectedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final Context c = this;
         final ActionBar tabBar = getActionBar();
         super.onCreate(savedInstanceState);
+        setContext(this);
         getActionBar().setDisplayShowHomeEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(false);
         setContentView(R.layout.activity_show_inventory);
         tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         ActionBar.TabListener tabListener = new ActionBar.TabListener() {
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-                RelativeLayout container = (RelativeLayout) findViewById(R.id.fragment_container);
-                LinearLayout ll;
+                selectedItem = null;
+                oldSelectedItem = null;
                 if (tab.getPosition() == 0) {
                     setContentView(R.layout.layout_inventory);
                     updateInventory();
@@ -63,179 +63,198 @@ public class InventoryActivity extends TransitionActivity implements View.OnClic
             }
 
             public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
             }
         };
         tabBar.addTab(tabBar.newTab().setText(getString(R.string.text_inventory)).setTabListener(tabListener));
         tabBar.addTab(tabBar.newTab().setText(getString(R.string.text_equipped)).setTabListener(tabListener));
-        Button btnEquip = (Button) findViewById(R.id.btn_equip);
-        btnEquip.setOnClickListener(this);
     }
 
+    @Override
     public void onClick(View v) {
         Button btnEquip = (Button) findViewById(R.id.btn_equip);
         if (v.getId() == btnEquip.getId()) {
             if (account.equipItem(selectedItem) == true) {
                 account.getInventory().removeItem(selectedItem);
                 selectedItem = null;
+                oldSelectedItem = null;
                 btnEquip.setEnabled(false);
                 TextView tv = (TextView) findViewById(R.id.textView_item_name);
                 tv.setText(getString(R.string.text_no_item_selected));
-                tv = (TextView) findViewById(R.id.textView_stat_names);
-                tv.setText("");
-                tv = (TextView) findViewById(R.id.textView_item_stats);
-                tv.setText("");
+                ((TextView) findViewById(R.id.textView_stat_names)).setText("");
+                ((TextView) findViewById(R.id.textView_item_stats)).setText("");
+
                 ImageView iv = (ImageView) findViewById(R.id.imageView_item_pic);
                 iv.setBackgroundResource(0);
-                oldSelectedItem = null;
                 updateInventory();
             } else
                 Toaster.makeToast(this, getString(R.string.text_cannot_equip_item));
         } else {
             newItemSelected(v);
-            btnEquip.setEnabled(true);
             selectedItem = account.getInventory().getItem(v.getId() - 0xff000);
-            displayStats(v.getId() - 0xff000);
+            btnEquip.setEnabled(true);
+            displayStats(v.getId() - 0xff000, false);
         }
     }
 
     public void updateInventory() {
+        (findViewById(R.id.inventory_scroll_view)).setFadingEdgeLength(100);
         account = Account.get();
-        ScrollView sv = (ScrollView) findViewById(R.id.inventory_scroll_view);
-        sv.setFadingEdgeLength(100);
-        LinearLayout itemLayout = (LinearLayout) findViewById(R.id.linear_layout_items);
-        ArrayList<Item> items = account.getInventory().getItems();
-        itemLayout.removeAllViews();
-        LinearLayout layout;
-        TextView textName;
-        TextView textType;
-        Item item;
-        for (int i = 0; i < items.size(); i++) {
-            item = items.get(i);
-            String colour = getRarityColour(item);
-            layout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.layout_item, null);  // Create a new layout "item"
-            layout.setId(0xff000 + i);      // Set a unique ID
-            layout.setOnClickListener(this);
-            itemLayout.addView(layout);     // Must be added to container before params can change
-            ViewGroup.LayoutParams params = layout.getLayoutParams();
-            params.height = 200;
-            layout.setLayoutParams(params);
-            textName = (TextView) findViewById(R.id.textView_inv_item_name);
-            textName.setText(item.getName());
-            textName.setTextColor(Color.parseColor(colour));
-            textName.setId(0xf000 + i);
-            textType = (TextView) findViewById(R.id.textView_inv_item_type);
-            textType.setText(item.getType());
-            textType.setTextColor(Color.parseColor(colour));
-            textType.setId(0xf00 + i);
-
-        }
+        displayItems(account.getInventory().getItems(), 1);
     }
 
     public void updateEquipment() {
-        int headIndex, bodyIndex, legIndex, wpn1Index, wpn2Index;
-        Account account = Account.get();
+        account = Account.get();
         if (account != null) {
+            String type;
+            int id = 0;
             ArrayList<Equipment> equipment = account.getEquipped();
-            if (equipment != null) {
+            ArrayList<Integer> totalAttributes = account.getTotalAttributes().get();
+            String att = "";
+            for (int i = 0; i < totalAttributes.size(); i++) {
+                att += Integer.toString(totalAttributes.get(i)) + "\n";     // Put all stats into a string
+            }
+            ((TextView) findViewById(R.id.item_stats)).setText(att);
 
+            for (int i = 0; i < equipment.size(); i++) {
+                type = equipment.get(i).getType();
+                if (type.equals("Helm")) {
+                    id = R.id.pic_head;
+                } else if (type.equals("Armour")) {
+                    id = R.id.pic_chest;
+                } else if (type.equals("Leggings")) {
+                    id = R.id.pic_legs;
+                } else {
+                    if (id != R.id.pic_wpn2) {
+                        id = R.id.pic_wpn1;
+                    }
+                }
+                setTextViewColour(id, ItemManager.getRarityColour(equipment.get(i)));
+                ((TextView) findViewById(id)).setText("Level\n" + equipment.get(i).getLevel());
+                if (id == R.id.pic_wpn1) id = R.id.pic_wpn2;
             }
-            ArrayList<Integer> temp = account.getTotalAttributes().get();
-            ArrayList<String> att = new ArrayList<String>();
-            for (int i = 0; i < temp.size(); i++) {
-                att.add(Integer.toString(temp.get(i)));
-            }
-            TextView tv = (TextView) findViewById(R.id.item_stats);
-            tv.setText(att.get(0) + '\n' + att.get(1) + '\n' + att.get(2) + '\n' + att.get(3) + '\n' + att.get(4) + '\n' + att.get(5) + '\n' + att.get(6) + '\n' + att.get(7));
         }
     }
 
-    public void displayStats(int i) {
-        ArrayList<Item> items = account.getInventory().getItems();
+    public void displayStats(int i, boolean equip) {
+        ArrayList<Item> items;
+        if (equip == true) {
+            items = new ArrayList<Item>();
+            ArrayList<Equipment> equips = account.getEquipped();
+            for (int index = 0; index < equips.size(); index++) items.add(equips.get(index));
+        } else items = account.getInventory().getItems();
 
         if (i < items.size()) {
             Item item = items.get(i);
             ArrayList<Integer> att;
-            String names = "";
-            String data = "";
+            String statNames = getString(R.string.text_stats);
+            String statData = "";
             if (item != null) {
                 ImageView iv = (ImageView) findViewById(R.id.imageView_item_pic);
                 iv.setBackgroundResource(R.drawable.double_lined);
-                if (item.getClass() == Equipment.class) {
-                    att = ((Equipment) item).getAttributes().get();
-                    names = "Health Points:\nAction Points:\nPhysical Damage:\nMagic Damage:\nPhysical Defence:\nMagic Defence:\nCritical Damage:\nSpeed:\nValue:";
-                    data = att.get(0) + "\n" + att.get(1) + "\n" + att.get(2) + " \n" + att.get(3) + "\n" + att.get(4) + "\n" + att.get(5) + "\n" + att.get(6) + "\n" + att.get(7) + "\n" + item.getPrice() + "g";
+                if (item.getClass() == Equipment.class || item.getClass() == Imbue.class) {
+                    if (item.getClass() == Equipment.class)
+                        att = ((Equipment) item).getAttributes().get();
+                    else att = ((Imbue) item).getAttributes().get();
+                    for (int x = 0; x < att.size(); x++)
+                        statData += Integer.toString(att.get(x)) + "\n";      // Put all statistics into a String
                 } else if (item.getClass() == Potion.class) {
-                    names = "Health Points:\nAction Points:\nCount:\nValue:";
-                    if (((Potion) item).getType().equals("HP")) {
-                        data = ((Potion) item).getAmount() + "\n0\n" + ((Potion) item).getCount() + "\n" + item.getPrice();
-                    } else {
-                        data = "0\n" + ((Potion) item).getAmount() + "\n" + ((Potion) item).getCount() + "\n" + item.getPrice();
-                    }
-                } else if (item.getClass() == Imbue.class) {
-                    att = ((Imbue) item).getAttributes().get();
-                    names = "Type:\nPhysical Damage:\nMagic Damage:\nPhysical Defence:\nMagic Defence:\nCritical Damage:\nSpeed:\nValue:";
-                    data = item.getType() + "\n" + att.get(2) + " \n" + att.get(3) + "\n" + att.get(4) + "\n" + att.get(5) + "\n" + att.get(6) + "\n" + att.get(7) + "\n" + item.getPrice() + "g";
+                    statNames = "Health Points:\nAction Points:\nCount:";
+                    if (item.getType().equals("HP")) {
+                        statData = ((Potion) item).getAmount() + "\n0\n" + ((Potion) item).getCount(); // 0 AP
+                    } else
+                        statData = "0\n" + ((Potion) item).getAmount() + "\n" + ((Potion) item).getCount(); // 0 HP
+
                 } else if (item.getClass() == UpgradeStone.class) {
-                    names = "Type:\nRarity:\nCount:\nValue:";
-                    data = item.getType() + "\n" + ((UpgradeStone) item).getRarity() + "\n" + ((UpgradeStone) item).getCount() + "\n" + item.getPrice();
+                    statNames = "Count:";
+                    statData = Integer.toString(((UpgradeStone) item).getCount());
                 }
 
-                TextView title = (TextView) findViewById(R.id.textView_item_name);
-                title.setText(item.getName());
-                TextView textNames = (TextView) findViewById(R.id.textView_stat_names);
-                textNames.setText(names);
-                TextView textData = (TextView) findViewById(R.id.textView_item_stats);
-                textData.setText(data);
+                ((TextView) findViewById(R.id.textView_item_name)).setText(item.getName());     // Set name
+                ((TextView) findViewById(R.id.textView_stat_names)).setText(statNames);         // Set stats
+                ((TextView) findViewById(R.id.textView_item_stats)).setText(statData);          // Set stat data
             }
         }
     }
 
-    private void newItemSelected(View v) {
-        int newSelectedItem;
-        int i = v.getId() - 0xff000;
-        try {
-            LinearLayout ll = (LinearLayout) v;
-            TextView tv1 = (TextView) findViewById(0xf000 + i); //R.id.textView_inv_item_name
-            TextView tv2 = (TextView) findViewById(0xf00 + i); //R.id.textView_inv_item_type
-            ll.setBackgroundColor(Color.parseColor("#cccccc"));
-            tv1.setTextColor(Color.parseColor("#000000"));
-            tv2.setTextColor(Color.parseColor("#000000"));
-            newSelectedItem = ll.getId();
-            if (oldSelectedItem != null
-                    && oldSelectedItem != newSelectedItem) {
-                ll = (LinearLayout) findViewById(oldSelectedItem);
-                ll.setBackgroundResource(0);
-                i = oldSelectedItem - 0xff000;
-                tv1 = (TextView) findViewById(0xf000 + i);
-                tv2 = (TextView) findViewById(0xf00 + i);
-                tv1.setTextColor(Color.parseColor(getRarityColour(selectedItem)));
-                tv2.setTextColor(Color.parseColor(getRarityColour(selectedItem)));
-
+    public void onEquipSelected(View v) {
+        ArrayList<Equipment> equipment = account.getEquipped();
+        selectedItemId = v.getId();
+        int index = 0;
+        int weapon = 0;
+        String type = "Weapon";
+        switch (v.getId()) {
+            case (R.id.pic_head):
+                type = "Helm";
+                break;
+            case (R.id.pic_chest):
+                type = "Armour";
+                break;
+            case (R.id.pic_legs):
+                type = "Leggings";
+                break;
+            case (R.id.pic_wpn1):
+                weapon = R.id.pic_wpn1 - R.id.pic_wpn2;
+                break;
+            case (R.id.pic_wpn2):
+                weapon = R.id.pic_wpn2 - R.id.pic_wpn1;
+                break;
+        }
+        while (index < equipment.size()) {
+            if (equipment.get(index).getType().equals(type)) {
+                if (weapon > 0) {     // Second weapon selected
+                    weapon = -1;    // Skips the first weapon in the list
+                } else {
+                    newEquipSelected(v);
+                    selectedItem = equipment.get(index);
+                    displayStats(index, true);
+                    (findViewById(R.id.btn_unequip)).setEnabled(true);
+                    return;
+                }
             }
-            oldSelectedItem = newSelectedItem;
-        } catch (Exception e) {
-            Log.d("Item selected error", e.toString());
+            index++;
+        }
+        // Only reach this point if no such item is equipped (Blank box was pressed)
+        if (oldSelectedItem != null) {      // If an item was previous selected, restore its correct colours
+            setTextViewColour(oldSelectedItem, ItemManager.getRarityColour(selectedItem));
+            (findViewById(oldSelectedItem)).setBackgroundResource(R.drawable.single_lined_black);
+            oldSelectedItem = null;
+        }
+        disableUnequipButton();
+    }
+
+
+    public void newEquipSelected(View v) {
+        int newSelectedItem = v.getId();
+        v.setBackgroundColor(Color.parseColor("#cccccc"));          // Select item
+        setTextViewColour(newSelectedItem, "#000000");
+        if (oldSelectedItem != null && oldSelectedItem != newSelectedItem) {    // New item has been selected
+            v = findViewById(oldSelectedItem);
+            v.setBackgroundResource(R.drawable.single_lined_black);             // Restore colours of the old selected item
+            setTextViewColour(oldSelectedItem, ItemManager.getRarityColour(selectedItem));
+        }
+        oldSelectedItem = newSelectedItem;
+    }
+
+    public void unequipSelected(View v) {
+        if (selectedItem != null) {         // Item must be selected to unequip it
+            account.unequipItem(selectedItem);      // Unequip and add to inventory
+            account.getInventory().addItem(selectedItem);
+            // Dunno what this does?...
+            // setTextViewColour(v.getId(), ItemManager.getRarityColour(selectedItem));
+            selectedItem = null;
+            oldSelectedItem = null;
+            setContentView(R.layout.layout_equipment);
+            updateEquipment();
         }
     }
 
-    private String getRarityColour(Item item){
-        switch (item.getId().charAt(0)) {
-            case ('u'):
-                return "#B2FF66";
-            case ('r'):
-                return "#3399FF";
-            case ('l'):
-                return "#CC0066";
-            case ('a'):
-                return "#99FFFF";
-            default:
-                return "#ffffff";
-        }
-    }
-
-    private int getScreenWidth() {
-        Display display = getWindowManager().getDefaultDisplay();
-        return display.getWidth(); // gets actual usable height
+    private void disableUnequipButton() {
+        (findViewById(R.id.btn_unequip)).setEnabled(false);
+        selectedItem = null;
+        (findViewById(R.id.imageView_item_pic)).setBackgroundResource(0);
+        TextView tv = (TextView) findViewById(R.id.textView_item_name);
+        tv.setText(getString(R.string.text_no_item_selected));
+        ((TextView) findViewById(R.id.textView_stat_names)).setText("");
+        ((TextView) findViewById(R.id.textView_item_stats)).setText("");
     }
 }

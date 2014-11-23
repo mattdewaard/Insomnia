@@ -52,6 +52,8 @@ public class AccountManager {
         } else {
             File characterNames = new File(context.getFilesDir(),
                     "character_names");
+            if (characterNames.length() == 0)
+                return generateFile(context, uName, password, charClass);
             try {
                 br = new BufferedReader(new FileReader(characterNames));
                 while (br.ready()) {
@@ -80,7 +82,7 @@ public class AccountManager {
             br = new BufferedReader(new FileReader(characterFile));
             while (br.ready()) {
                 details.add(br.readLine());         // Add each piece of data into a string list
-                Log.d("Data", details.get(details.size() - 1) + "  " + Integer.toString(details.size() - 1)); // Tag data index
+                //Log.d("Data", details.get(details.size() - 1) + "  " + Integer.toString(details.size() - 1)); // Tag data index
             }
             br.close();
         } catch (Exception e) {
@@ -98,7 +100,7 @@ public class AccountManager {
                 try {
                     CharacterClass cc = new CharacterClass(details.get(2),
                             details.get(6), Integer.parseInt(details.get(3)),
-                            Integer.parseInt(details.get(5)));          // Parameters: Type, stats, level, exp
+                            Integer.parseInt(details.get(4)));          // Parameters: Type, stats, level, exp
 
                     ArrayList<Skill> skills = new ArrayList<Skill>();
                     Skill skill;
@@ -130,16 +132,16 @@ public class AccountManager {
                     ArrayList<String> invent = new ArrayList<String>();
                     while (i < details.size()) {
                         invent.add(details.get(i));
-                        Log.d("Inventory item " + i, details.get(i));
+                        // Log.d("Inventory item " + i, details.get(i));
                         i++;
                     }
                     Inventory inventory = new Inventory(invent,
-                            Integer.parseInt(details.get(4)));      // Parameters: Array of items details, gold
+                            Integer.parseInt(details.get(5)));      // Parameters: Array of items details, gold
                     acc = new Account(details.get(0), details.get(1), cc,
                             skills, equipment, inventory);          // Parameters: Username, Password, CharacterClass, Skills, equipment, inventory
                     return acc;
                 } catch (Exception e) {
-                    Log.d("Error", e.toString() + " " + i);
+                    Log.d("Error", e.toString() + " " + details.size() + " " + i);
                 }
             }
         }

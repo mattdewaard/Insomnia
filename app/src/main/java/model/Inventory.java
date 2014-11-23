@@ -14,11 +14,12 @@ import Items.Potion;
 import Items.UpgradeStone;
 
 public class Inventory {
-    ArrayList<Item> items = new ArrayList<Item>();
-    int gold;
+    private ArrayList<Item> items;
+    private int gold;
 
-    public Inventory(ArrayList<String> itemList, int g) throws Exception {
+    public Inventory(ArrayList<String> itemList, int g) {
         gold = g;
+        items = new ArrayList<Item>();
         String[] details;    // [ID] [lvl] [imbueType] [imbueLevel]
         Item item;
         for (int i = 0; i < itemList.size(); i++) {
@@ -44,12 +45,16 @@ public class Inventory {
                     UpgradeStone upgradeStone = (UpgradeStone) item;
                     upgradeStone.setCount(Integer.parseInt(details[1]));
                     items.add(upgradeStone);
-                } else{ items.add(item);}
+                } else {
+                    items.add(item);
+                }
             }
         }
     }
 
-    public ArrayList<Item> getItems(){return items;}
+    public ArrayList<Item> getItems() {
+        return items;
+    }
 
     public int getSize() {
         return items.size();
@@ -71,10 +76,28 @@ public class Inventory {
         return gold;
     }
 
+    public void addGold(int amount) {
+        gold += amount;
+    }
+
+    public int buyItem(Item item) {
+        if (item.getPrice() * 4 <= gold) { // Enough gold for purchase
+            if (items.size() >= 32) {
+                return 1;
+            }
+            gold -= item.getPrice() * 4;
+            addItem(item);
+            return 0;
+        }
+        return 2;
+    }
+
     public void addItem(Item item) {
         items.add(item);
     }
 
-    public void removeItem(Item item) { items.remove(item);}
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
 
 }

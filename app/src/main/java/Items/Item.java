@@ -1,5 +1,4 @@
 package Items;
-import model.Attributes;
 
 public class Item {
 	private String id;

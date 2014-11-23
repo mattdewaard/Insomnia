@@ -57,10 +57,9 @@ public class LoadAccountActivity extends TransitionActivity implements
         LinearLayout savedAccounts = (LinearLayout) findViewById(R.id.save_box);
         savedAccounts.removeAllViews();
         File accountNames = new File(this.getFilesDir(), "character_names");
+        TextView textViewAccount;
         try {
             BufferedReader br = new BufferedReader(new FileReader(accountNames));
-            TextView textViewAccount;
-            TextView spacer;
             int i = 0;
             while (br.ready()) {
                 textViewAccount = (TextView) LayoutInflater.from(this).inflate(R.layout.text_view_account_name, null);
@@ -71,19 +70,23 @@ public class LoadAccountActivity extends TransitionActivity implements
                 ViewGroup.LayoutParams params = textViewAccount.getLayoutParams();
                 params.height = 120;
                 textViewAccount.setLayoutParams(params);
-                textViewAccount.setPadding(20,0,0,0);
+                textViewAccount.setPadding(20, 0, 0, 0);
                 textViewAccount.setAlpha(.75f);
                 i++;
             }
             if (i == 0) { // no accounts
-                textViewAccount = (TextView) LayoutInflater.from(this).inflate(
-                        R.layout.text_view_account_name, null);
-                textViewAccount.setText(getString(R.string.text_no_saves));
-                textViewAccount.setClickable(false);
-                savedAccounts.addView(textViewAccount);
+                accountNames.delete();
             }
         } catch (Exception e) {
             Log.d("Reading accounts error", e.toString());
+        }
+        if (accountNames.length() == 0) {
+            textViewAccount = (TextView) LayoutInflater.from(this).inflate(
+                    R.layout.text_view_account_name, null);
+            textViewAccount.setText(getString(R.string.text_no_saves));
+            textViewAccount.setAlpha(0.75f);
+            textViewAccount.setClickable(false);
+            savedAccounts.addView(textViewAccount);
         }
     }
 

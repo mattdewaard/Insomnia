@@ -100,19 +100,21 @@ public class Account {
     }
 
     public boolean equipItem(Item item) {
-        if (item.getClass() == Equipment.class) {
+        if (item.getClass() == Equipment.class) {   // Can only equip equipment
             int numWpns = 0;
             Equipment equip = (Equipment) item;
             for (int i = 0; i < equipment.size(); i++) {
                 Equipment tempEquip = equipment.get(i);
                 if (tempEquip.getType().equals("Weapon") && equip.getType().equals("Weapon")) {
-                    if (numWpns++ >= 2)
+                    numWpns++;
+                    if (numWpns >= 2) // Check total number of weapons equipped is max 2
                         return false;
                 }
-                if (tempEquip.getType().equals(equip.getType())) {
+                else if (tempEquip.getType().equals(equip.getType())) {    // Can only equip one of each armour type
                     return false;
                 }
             }
+            if( equip.getType().equals("Weapon")) numWpns++;
             equipment.add(equip);
             return true;
         }
@@ -157,7 +159,6 @@ public class Account {
             spd += temp.get(6);
             crit += temp.get(7);
         }
-        System.out.println(hp + " " + ap + " " + pdmg + " " + mdmg + " " + pdef + " " + mdef + " " + spd + " " + crit);
         return new Attributes(hp, ap, pdmg, mdmg, pdef, mdef, spd, crit);
     }
 

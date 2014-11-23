@@ -13,6 +13,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.os.Build;
 
+import model.ItemManager;
+
 public class StartMenuActivity extends Activity implements
 		OnClickListener {
 	Button btnNew;
@@ -29,6 +31,7 @@ public class StartMenuActivity extends Activity implements
 		btnNew.setOnClickListener(this);
 		btnLoad.setOnClickListener(this);
 		btnSettings.setOnClickListener(this);
+        ItemManager.init();
 	}
 
 	@Override

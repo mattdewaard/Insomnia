@@ -50,5 +50,19 @@
     <string name="text_no_saves">No saved accounts</string>
     <string name="text_pin_length">Enter a four digit PIN number</string>
     <string name="text_no_item_selected">No item selected</string>
+    <string name="text_welcome_blacksmith">Welcome to my armory! What can I help you with?</string>
+    <string name="text_trade_items">Trade items</string>
+    <string name="text_upgrade_equipment">Upgrade equipment</string>
+    <string name="text_imbue_equipment">Imbue equipment</string>
+    <string name="title_activity_trade_items">TradeItemsActivity</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="text_buy">Buy item</string>
+    <string name="text_sell">Sell item</string>
+    <string name="text_cannot_afford">You cannot afford this item</string>
+    <string name="text_no_space">Not enough space in your inventory</string>
+    <string name="text_reassure_sell">Are you sure you want to sell this item?</string>
+    <string name="text_reassure_buy">Are you sure you want to buy this item?</string>
+    <string name="text_ok">Ok</string>
+    <string name="text_cancel">Cancel</string>
 
 </resources>

@@ -13,15 +13,21 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
-    <TextView
-        android:id="@+id/textView_feedback"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:layout_above="@+id/button_box"
-        android:textColor="#ffffff"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:background="@drawable/double_lined_black" />
+        android:background="@drawable/double_lined_black">
+
+        <TextView
+            android:id="@+id/textView_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:textSize="20sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/button_box"
@@ -75,7 +81,7 @@
             android:id="@+id/btn_4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff" />
 
         <View
             android:layout_width="0dp"

@@ -26,41 +26,64 @@
 
             <TextView
                 android:id="@+id/pic_head"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:clickable="true"
+                android:onClick="onEquipSelected"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="5dp"
                 android:background="@drawable/single_lined_black" />
 
             <TextView
                 android:id="@+id/pic_chest"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:clickable="true"
+                android:onClick="onEquipSelected"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="5dp"
                 android:background="@drawable/single_lined_black" />
 
             <TextView
                 android:id="@+id/pic_legs"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:clickable="true"
+                android:onClick="onEquipSelected"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="5dp"
                 android:background="@drawable/single_lined_black" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/pic_wpn1"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="5dp"
             android:background="@drawable/single_lined_black"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/linearLayout"
-            android:layout_toEndOf="@+id/linearLayout" />
+            android:clickable="true"
+            android:onClick="onEquipSelected"
+            android:gravity="center"
+            android:textSize="20dp"/>
 
         <TextView
             android:id="@+id/pic_wpn2"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="5dp"
             android:background="@drawable/single_lined_black"
             android:layout_centerVertical="true"
-            android:layout_alignLeft="@+id/pic_wpn1"
-            android:layout_below="@+id/pic_wpn1" />
+            android:layout_toRightOf="@+id/linearLayout"
+            android:layout_below="@+id/pic_wpn1"
+            android:clickable="true"
+            android:onClick="onEquipSelected"
+            android:gravity="center"
+            android:textSize="20dp"/>
 
         <TextView
             android:id="@+id/item_title"
@@ -169,10 +192,12 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/btn_equip"
+            android:id="@+id/btn_unequip"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_unequip_item"
+            android:enabled="false"
+            android:onClick="unequipSelected"
             android:textColor="#ffffff" />
 
         <View

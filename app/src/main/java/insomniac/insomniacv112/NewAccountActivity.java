@@ -77,6 +77,7 @@ public class NewAccountActivity extends TransitionActivity implements
                                 if (AccountManager.getAccount(this, name, pin) != null){
                                     // TEST DATA
                                     Account account = AccountManager.getAccount(this, name, pin);
+                                    account.getInventory().addGold(5000);
                                     Potion p = (Potion) ItemManager.getItem("c001");
                                     p.increaseCount();
                                     p.increaseCount();
